@@ -226,6 +226,7 @@ public class MainActivity extends AppCompatActivity
                         //Convertir los datos de tipo barcode a string
                         bcSend=barcode.rawValue;
                         Log.d("Okay","Barcode: "+bcSend);
+                        Toast.makeText(getApplicationContext(), bcSend, Toast.LENGTH_SHORT).show();
                         /*try {
                             //Realizar consulta en la base de datos enviando un parámetro
                             Cursor cursor = dbmarket.productById(bcSend);
