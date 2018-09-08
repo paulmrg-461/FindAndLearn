@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Encuentra y Aprende</string>
+
+    <string name="navigation_drawer_open">Abrir barra de navegación</string>
+    <string name="navigation_drawer_close">Cerrar barra de navegación</string>
+    <string name="item_nav_drawer_leaderboard">Tabla de líderes</string>
+    <string name="item_nav_drawer_map">Mapa de objetivos</string>
+    <string name="item_nav_drawer_badges">Insignias</string>
+    <string name="item_nav_drawer_points">Puntaje</string>
+
+    <string name="action_settings">Ajustes</string>
+
+    //Strings BarcodeCapture
+    <string name="library_name">Lector códigos de barras</string>
+    <string name="permission_camera_rationale">Para leer los códigos de barras es necesario tener acceso a la cámara.</string>
+    <string name="no_camera_permission">No se puede iniciar el lector porque los permisos de la cámara fueron denegados.</string>
+    <string name="title_activity_barcode_capture">BarcodeCaptureActivity</string>
+</resources>
