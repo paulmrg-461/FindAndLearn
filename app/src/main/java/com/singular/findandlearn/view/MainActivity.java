@@ -2,6 +2,7 @@ package com.singular.findandlearn.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -30,8 +31,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.gson.Gson;
 import com.singular.findandlearn.R;
-import com.singular.findandlearn.barcodeReader.BarcodeCapture;
-import com.singular.findandlearn.barcodeReader.BarcodeCaptureBuilder;
 import com.singular.findandlearn.controller.Constantes;
 import com.singular.findandlearn.controller.StudentAdapter;
 import com.singular.findandlearn.controller.VolleySingleton;
@@ -67,12 +66,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startScan();
+                //startScan();
+                Intent intent = new Intent (MainActivity.this, MapsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -208,72 +208,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void startScan() {
-        /**
-         * Build BarcodeScanner
-         */
-        final BarcodeCapture materialBarcodeCapture = new BarcodeCaptureBuilder()
-                .withActivity(MainActivity.this)
-                .withEnableAutoFocus(true)
-                .withBleepEnabled(true)
-                .withBackfacingCamera()
-                .withCenterTracker()
-                .withText("Leyendo...")
-                .withResultListener(new BarcodeCapture.OnResultListener() {
-                    @Override
-                    public void onResult(Barcode barcode) {
-                        barcodeResult = barcode;
-                        //Convertir los datos de tipo barcode a string
-                        bcSend=barcode.rawValue;
-                        Log.d("Okay","Barcode: "+bcSend);
-                        Toast.makeText(getApplicationContext(), "Soy el Vitor Tolas " + bcSend, Toast.LENGTH_SHORT).show();
-                        /*try {
-                            //Realizar consulta en la base de datos enviando un parámetro
-                            Cursor cursor = dbmarket.productById(bcSend);
-                            Product product;
-                            product = new Product(bcSend, cursor.getString(0), cursor.getString(1));
-                            Log.d("Okay","insert data in Product class");
-
-                            name = product.getName();
-                            price = product.getUnitPrice();
-                            unitPrice = Integer.parseInt(price);
-
-                            Toast.makeText(getApplicationContext(), product.getName(), Toast.LENGTH_SHORT).show();
-                            AddProductDialog();
-                        } catch (Exception e){
-                            Toast.makeText(getApplicationContext(), R.string.no_find_product, Toast.LENGTH_SHORT).show();
-                        }*/
-                    }
-                })
-                .build();
-        materialBarcodeCapture.startScan();
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(BARCODE_KEY, barcodeResult);
+        //outState.putParcelable(BARCODE_KEY, barcodeResult);
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode != BarcodeCapture.RC_HANDLE_CAMERA_PERM) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            return;
-        }
-        if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            startScan();
-            return;
-        }
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        };
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Error")
-                .setMessage(R.string.no_camera_permission)
-                .setPositiveButton(android.R.string.ok, listener)
-                .show();
     }
 }
